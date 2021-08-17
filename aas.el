@@ -194,7 +194,9 @@ Use for the typing history, `aas--current-prefix-maps' and
                  (cl-callf cdr aas--current-prefix-maps)))))
       ;; proceed loop
       (setq prev current-map-sublist)
-      (cl-callf cdr current-map-sublist))))
+      (cl-callf cdr current-map-sublist)))
+  (if (equal (this-command-keys) " ")
+      (setq aas--current-prefix-maps nil)))
 
 ;;;###autoload
 (defun aas-activate-keymap (keymap-symbol)
@@ -233,10 +235,7 @@ Otherwise return nil."
 
 This does not set any default keymaps. For that use
 `aas-activate-for-major-mode' and `aas-activate-keymap'."
-  :init-value nil
-  (if aas-mode
-      (add-hook 'post-self-insert-hook #'aas-post-self-insert-hook 0 t)
-    (remove-hook 'post-self-insert-hook #'aas-post-self-insert-hook t)))
+  :init-value nil)
 
 ;;;###autoload
 (defun aas-activate-for-major-mode ()
