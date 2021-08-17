@@ -160,6 +160,16 @@ For examples see the definition of `aas--prefix-map'.
 
 Gets updated by `aas-post-self-insert-hook'.")
 
+(defvar aas-map (make-sparse-keymap))
+(define-key aas-map [remap self-insert-command] #'aas-self-insert-command)
+
+(defun aas-self-insert-command (N &optional C)
+  (interactive)
+  (let (post-self-insert-hook)
+    (self-insert-command N C)
+    (aas-post-self-insert-hook))
+  (run-hooks 'post-self-insert-hook))
+
 (defun aas-post-self-insert-hook ()
   "Try to expand snippets automatically.
 
