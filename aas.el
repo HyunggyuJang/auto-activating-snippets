@@ -168,8 +168,8 @@ Gets updated by `aas-post-self-insert-hook'.")
   (let (post-self-insert-hook)
     (self-insert-command N C))
   (aas-post-self-insert-hook)
-  (if aas--current-prefix-maps)
-  (run-hooks 'post-self-insert-hook))
+  (unless (cdr aas--current-prefix-maps)
+    (run-hooks 'post-self-insert-hook)))
 
 (defun aas-post-self-insert-hook ()
   "Try to expand snippets automatically.
