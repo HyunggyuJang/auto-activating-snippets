@@ -164,7 +164,7 @@ Gets updated by `aas-post-self-insert-hook'.")
 (define-key aas-map [remap self-insert-command] #'aas-self-insert-command)
 
 (defun aas-self-insert-command (N &optional C)
-  (interactive)
+  (interactive "p")
   (let (post-self-insert-hook)
     (self-insert-command N C)
     (aas-post-self-insert-hook))
