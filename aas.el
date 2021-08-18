@@ -208,7 +208,7 @@ Use for the typing history, `aas--current-prefix-maps' and
                        aas--current-prefix-maps (list nil)) ; abort all other snippest
                ;; unseccesfull. remove dead end from the list
                (cl-callf cdr current-map-sublist)
-               (setcdr prev (cdr current-map-sublist))))))))
+               (setcdr prev current-map-sublist)))))))
 
 ;;;###autoload
 (defun aas-activate-keymap (keymap-symbol)
