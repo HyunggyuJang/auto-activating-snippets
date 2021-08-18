@@ -247,7 +247,12 @@ Otherwise return nil."
 
 This does not set any default keymaps. For that use
 `aas-activate-for-major-mode' and `aas-activate-keymap'."
-  :init-value nil)
+  :init-value nil
+  (if aas-mode
+      (let ((map (make-sparse-keymap)))
+        (set-keymap-parent map (current-local-map))
+        (define-key map [remap self-insert-command] #'aas-self-insert-command)
+        (setq aas-map map))))
 
 ;;;###autoload
 (defun aas-activate-for-major-mode ()
