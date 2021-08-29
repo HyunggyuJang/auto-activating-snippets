@@ -167,6 +167,7 @@ Gets updated by `aas-post-self-insert-hook'.")
 holds the keymap."
   (let ((overlay (make-overlay start end)))
     (overlay-put overlay 'local-map aas-map)
+    (overlay-put overlay 'aas t)
     overlay))
 
 (defun aas-self-insert-command (N &optional C)
