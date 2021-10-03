@@ -158,6 +158,9 @@ For examples see the definition of `aas--prefix-map'.
 (defvar-local aas--current-prefix-maps (list nil)
   "Global variable to keep track of the current user path trace of snippets.
 
+A list of active keymap trees that may result in expansion, with
+the first element always nil for update logic simplicity.
+
 Gets updated by `aas-post-self-insert-hook'.")
 
 (defvar-local aas-map nil)
@@ -204,12 +207,16 @@ Use for the typing history, `aas--current-prefix-maps' and
              ;; an ending! no need to call interactively,`aas-expand-snippet-maybe'
              ;; takes care of that
              (if (funcall key-result)
-                 ;; condition evaluated to true, and snipped expanded!
+                 ;; condition evaluated to true, and snippet expanded!
                  (setq current-map-sublist nil      ; stop the loop
-                       aas--current-prefix-maps (list nil)) ; abort all other snippest
+                       aas--current-prefix-maps (list nil)) ; abort all other snippet
                ;; unseccesfull. remove dead end from the list
                (cl-callf cdr current-map-sublist)
-               (setcdr prev current-map-sublist)))))))
+               (setcdr prev current-map-sublist)))
+            ;; Make sure the loop progresses even in the face of objectionable
+            ;; output from `this-command-keys'
+            (t (cl-callf cdr current-map-sublist)
+               (setcdr prev current-map-sublist))))))
 
 ;;;###autoload
 (defun aas-activate-keymap (keymap-symbol)
