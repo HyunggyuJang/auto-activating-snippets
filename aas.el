@@ -260,6 +260,7 @@ This does not set any default keymaps. For that use
       (let ((map (make-sparse-keymap)))
         (set-keymap-parent map (current-local-map))
         (define-key map [remap self-insert-command] #'aas-self-insert-command)
+        (define-key map "|" #'aas-self-insert-command) ;To handle `org-force-self-insert'
         (setq aas-map map))))
 
 ;;;###autoload
